@@ -1,61 +1,62 @@
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from .serializers import (
     HealthInstitutionSerializer,
     ProfessionSerializer,
     EventSerializer,
     RegisterSerializer,
-    UserSerializer,
 )
-from .utils import BaseCRUDAPIController
+from .utils import BaseCRUDAPIController, filter_records
 from .models import HealthInstitution, Profession, Event
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
 
 
 ###############################################################
 # Register API View
 ###############################################################
-class RegisterApi(generics.GenericAPIView):
+class RegisterUserAPIView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response(
-            {
-                "user": UserSerializer(
-                    user, context=self.get_serializer_context()
-                ).data,
-                "message": "User Created Successfully.Now perform Login to get your token",
-            }
-        )
 
 
 ###############################################################
 # Health Institution API View
 ###############################################################
 class HealthInstitutionController(BaseCRUDAPIController):
-    def __init__(self, model, serializer):
-        super().__init__(model, serializer)
-        self.model = HealthInstitution
-        self.serializer = HealthInstitutionSerializer
+    model = HealthInstitution
+    serializer = HealthInstitutionSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (AllowAny,)
+
+
+def filter_health_institutions(request):
+    result = filter_records(request, HealthInstitution, HealthInstitutionSerializer)
+    return result
 
 
 ###############################################################
 # Profession API View
 ###############################################################
 class ProfessionController(BaseCRUDAPIController):
-    def __init__(self, model, serializer):
-        super().__init__(model, serializer)
-        self.model = Profession
-        self.serializer = ProfessionSerializer
+    model = Profession
+    serializer = ProfessionSerializer
+
+
+def filter_professions(request):
+    result = filter_records(request, Profession, ProfessionSerializer)
+    return result
 
 
 ###############################################################
 # Event API View
 ###############################################################
-class HealthInstitutionController(BaseCRUDAPIController):
-    def __init__(self, model, serializer):
-        super().__init__(model, serializer)
-        self.model = Event
-        self.serializer = EventSerializer
+class EventController(BaseCRUDAPIController):
+    model = Event
+    serializer = EventSerializer
+
+
+def filter_events(request):
+    result = filter_records(request, Event, EventSerializer)
+    return result

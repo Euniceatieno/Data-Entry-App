@@ -9,7 +9,6 @@ Technology/Library | Description
 --- | --- |
 *Django REST Framework* | *Api building framework for django*
 *Postman* |*Api testing*
-*Logging* | *Application events recording* 
 *Unittest* | *A python library for writing tests*
 *Postgres* | *A relational database service*
 *Python* | *An object oriented programming language* 
@@ -70,10 +69,22 @@ Migrate database updates
 ``` shell
 python3 manage.py migrate
 ```
+Run Unit Tests
+----------------------
+``` shell
+coverage run manage.py test
+
+```
 Start local server
 ----------------------
 ``` shell
 python3 manage.py runserver
+```
+Swagger Technical Documentation
+----------------------
+``` shell
+http://127.0.0.1:8000/data_entry_app/swagger/
+
 ```
 # Contacts
 For any queries ,reach out to *eunniceatieno@gmail.com*
