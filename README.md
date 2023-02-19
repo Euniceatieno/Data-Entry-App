@@ -83,7 +83,7 @@ python3 manage.py runserver
 Swagger Technical Documentation
 ----------------------
 ``` shell
-http://127.0.0.1:8000/data_entry_app/swagger/
+http://127.0.0.1:8000/swagger/
 
 ```
 # Contacts

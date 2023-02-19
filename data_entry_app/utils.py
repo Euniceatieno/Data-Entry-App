@@ -113,7 +113,9 @@ class BaseCRUDAPIController(APIView):
 def filter_records(request, model, serializer):
     try:
         if request.data.date_created:
-            professions = model.objects.filter(date_created=request.data.date_created)
+            professions = model.objects.filter(
+                date_created=request.data.date_created
+            )
             serializer = serializer(professions, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
