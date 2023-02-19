@@ -1,20 +1,16 @@
 version: 2 # CircleCI version
-jobs:
-  build:
-    docker: 
-      - image: cimg/python:3.9.2 
-    steps:
-      - checkout 
-      - run:
-          name: Install pip packages # name of this action
-          command: |
-            python3 -m venv env
-            . env/bin/activate
-            pip install -r requirements.txt
-      # run tests using pytest in verbose mode
-      - run:
-          name: Test with pytest
-          command: |
-            . env/bin/activate
-            pytest -v
+steps:
+  - checkout 
+  - run:
+      name: Install pip packages # name of this action
+      command: |
+        python3 -m venv env
+        . env/bin/activate
+        pip install -r requirements.txt
+  # run tests using pytest in verbose mode
+  - run:
+      name: Test with pytest
+      command: |
+        . env/bin/activate
+        pytest -v
 
